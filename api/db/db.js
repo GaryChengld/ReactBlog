@@ -11,7 +11,7 @@ const connectOption = {
 };
 
 mongoose.connection.on('connected', () => {
-    console.log('connected');
+    console.log('DB connected');
 });
 
 mongoose.connection.on('error', err => {
@@ -51,9 +51,9 @@ process.on('SIGTERM', () => {
     });
 });
 
-const connect = () => {
-    console.log("dbURL:" + dbURL);
-    setTimeout(() => mongoose.connect(dbURL, connectOption), 1000);
+const connect = async () => {
+    console.log("Connecting to DB");
+    await mongoose.connect(dbURL, connectOption);
 };
 
 const gracefulShutdown = (msg, callback) => {

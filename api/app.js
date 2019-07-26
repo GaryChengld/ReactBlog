@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const db = require('./db/db');
+const graphqlHandler = require('./graphql/graphqlHandler');
 
 var app = express();
 
@@ -40,4 +41,6 @@ app.use(function(err, req, res, next) {
 });
 
 db.connect();
+graphqlHandler.start(app);
+
 module.exports = app;
