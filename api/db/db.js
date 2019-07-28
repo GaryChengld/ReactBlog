@@ -6,8 +6,7 @@ const dbURL = process.env.DB_URL;
 const connectOption = {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false,
-    auth: { authSource: process.env.DB_AUTH_SOURCE }
+    useFindAndModify: false
 };
 
 mongoose.connection.on('connected', () => {

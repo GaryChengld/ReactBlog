@@ -4,6 +4,8 @@ const app = express();
 
 app.use(express.static('public'));
 
-app.listen(8000, function () {
-  console.log('UI started on port 8000');
+const port = process.env.UI_SERVER_PORT || 8000;
+
+app.listen(port, function () {
+  console.log(`UI started on port ${port}`);
 });
