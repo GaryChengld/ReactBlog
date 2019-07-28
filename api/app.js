@@ -1,12 +1,14 @@
+/* eslint no-unused-vars: "off" */
+
 require('dotenv').config();
-var createError = require('http-errors');
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const db = require('./db/db');
 const graphqlHandler = require('./graphql/graphqlHandler');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,17 +20,17 @@ app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
     res
       .status(401)
-      .json({ "message": err.name + ": " + err.message });
+      .json({ message: `${err.name}: ${err.message}` });
   }
-})
+});
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
