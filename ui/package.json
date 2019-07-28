@@ -1,7 +1,7 @@
 {
   "name": "React-Blog-UI",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "uiserver.js",
   "scripts": {
     "start": "nodemon -w uiserver.js uiserver.js",
     "compile": "babel src --out-dir public",
