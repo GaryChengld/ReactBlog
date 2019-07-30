@@ -5,8 +5,9 @@ const createError = require('http-errors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const db = require('./db/db'); ``
-const { startApolloServer } = require('./graphql/graphqlHandler');
+
+const db = require('./db/db'); 
+const graphqlHandler = require('./graphql/graphqlHandler');
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-startApolloServer(app);
+graphqlHandler.initServer(app);
 
 // UnauthorizedError handler
 app.use((err, req, res, next) => {
