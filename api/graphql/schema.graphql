@@ -1,3 +1,16 @@
+scalar GraphQLDate
+
+type Post {
+  _id: ID!
+  author: String!,
+  title: String!,
+  body: String!,
+  tags: [String!],
+  createdOn: GraphQLDate!,
+  updatedOn: GraphQLDate
+}
+
 type Query {
-  about: String!  
+  ping: String!
+  postList(limit: Int): [Post!]!
 }
