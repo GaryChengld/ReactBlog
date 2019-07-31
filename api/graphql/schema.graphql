@@ -11,6 +11,5 @@ type Post {
 }
 
 type Query {
-  ping: String!
   postList(limit: Int): [Post!]!
 }

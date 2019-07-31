@@ -6,7 +6,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const db = require('./db/db'); 
+const db = require('./db/db');
 const graphqlHandler = require('./graphql/graphqlHandler');
 
 const app = express();
@@ -23,9 +23,9 @@ app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
     res
       .status(401)
-      .json({ "message": err.name + ": " + err.message });
+      .json({ message: `${err.name}: ${err.message}` });
   }
-})
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

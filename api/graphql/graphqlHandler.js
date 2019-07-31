@@ -1,18 +1,13 @@
 const fs = require('fs');
-const path = require("path");
+const path = require('path');
 const { ApolloServer } = require('apollo-server-express');
 
 const GraphQLDate = require('./graphql_date.js');
 const postsService = require('../posts/postsService');
 
-const ping = () => {
-  return 'pong';
-}
-
 const resolvers = {
   Query: {
     postList: postsService.latestPosts,
-    ping: ping,
   },
   GraphQLDate,
 };
@@ -31,6 +26,6 @@ const initServer = (app) => {
   const enableCors = (process.env.ENABLE_CORS || 'true') === 'true';
   console.log('CORS setting:', enableCors);
   server.applyMiddleware({ app, path: '/graphql', cors: enableCors });
-}
+};
 
 module.exports = { initServer };
