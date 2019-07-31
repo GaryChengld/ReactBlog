@@ -63,3 +63,6 @@ typings/
 /dist
 
 .vscode
+
+ui/public/*.js
+ui/public/*.map

@@ -4,7 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
 
-import Page from './Page.jsx'
+import Page from './Page.jsx';
+
 const element = (
   <Router>
     <Page />
