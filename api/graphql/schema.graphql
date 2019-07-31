@@ -1,5 +1,12 @@
 scalar GraphQLDate
 
+type Comment {
+  _id: ID!
+  author: String!,
+  comment: String!,
+  createdOn: GraphQLDate!
+}
+
 type Post {
   _id: ID!
   author: String!,
@@ -7,7 +14,8 @@ type Post {
   body: String!,
   tags: [String!],
   createdOn: GraphQLDate!,
-  updatedOn: GraphQLDate
+  updatedOn: GraphQLDate,
+  comments: [Comment!]
 }
 
 type Query {
