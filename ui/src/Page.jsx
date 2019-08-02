@@ -1,9 +1,21 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+
+import AppRouting from './AppRouting.jsx';
+
+function NavBar() {
+  return (
+    <nav>
+      <NavLink exact to="/">Home</NavLink>
+    </nav>
+  );
+}
 
 export default function Page() {
   return (
     <div>
-      <h2>This is a placeholder for the main page</h2>
+      <NavBar />
+      <AppRouting />
     </div>
   );
 }
