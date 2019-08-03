@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import AppRouting from './AppRouting.jsx';
+import AppRouter from './AppRouter.jsx';
 
 function NavBar() {
   return (
@@ -15,7 +15,7 @@ export default function Page() {
   return (
     <div>
       <NavBar />
-      <AppRouting />
+      <AppRouter />
     </div>
   );
 }
