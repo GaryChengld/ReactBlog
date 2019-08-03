@@ -1,14 +1,17 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import LatestPosts from './LatestPosts.jsx';
+import PostDetail from './PostDetail.jsx';
 
 const NotFound = () => <h1>Page Not Found</h1>;
 
 export default function AppRouter() {
   return (
     <Switch>
-      <Route path="/" component={LatestPosts} />
+      <Redirect exact from="/" to="/posts" />
+      <Route path="/posts" component={LatestPosts} />
+      <Route path="/post/:id" component={PostDetail} />
       <Route component={NotFound} />
     </Switch>
   );

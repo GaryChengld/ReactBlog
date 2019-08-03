@@ -1,11 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 function PostRow({ post }) {
   return (
     <tr>
-      <td>{post.title}</td>
+      <td><Link to={`/post/${post._id}`}>{post.title}</Link></td>
       <td>{post.author}</td>
-      <td>{post.createdOn.toDateString()}</td>
+      <td>{post.createdOn.toLocaleString()}</td>
     </tr>
   );
 }
