@@ -6,6 +6,7 @@
   "rules": {
     "import/extensions": [ "error", "always", { "ignorePackages": true } ],
     "react/prop-types": "off",
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "no-underscore-dangle": "off"
   }
 }

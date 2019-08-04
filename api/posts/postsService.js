@@ -8,7 +8,7 @@ const latestPosts = (_, { limit }) => {
     .limit(limit);
 };
 
-const findById = (id) => {
+const findById = (_, { id }) => {
   console.log(`find post by id, id=${id}`);
   return Post.findById(id);
 };

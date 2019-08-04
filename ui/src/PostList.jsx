@@ -14,7 +14,7 @@ function PostRow({ post }) {
 
 export default function PostList({ posts }) {
   const postRows = posts.map(post => (
-    <PostRow key={post.id} post={post} />
+    <PostRow key={post._id} post={post} />
   ));
   return (
     <table className="bordered-table">

@@ -8,6 +8,7 @@ const postsService = require('../posts/postsService');
 const resolvers = {
   Query: {
     postList: postsService.latestPosts,
+    post: postsService.findById,
   },
   GraphQLDate,
 };
