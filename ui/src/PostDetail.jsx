@@ -5,10 +5,11 @@ import graphqlFetch from './graphqlFetch.js';
 function Comment({ comment }) {
   return (
     <div>
-      {comment.author}
-      <p>
+      <div>
+        <b>{comment.author}</b> - {comment.createdOn.toLocaleString()}<br />
         {comment.comment}
-      </p>
+      </div>
+      <br />
     </div>
   );
 }
@@ -16,7 +17,12 @@ function Comment({ comment }) {
 export default class PostDetail extends React.Component {
   constructor() {
     super();
-    this.state = { post: {} };
+    this.state = {
+      post: {},
+      addCommentButton: true,
+      addCommentForm: false,
+    };
+    this.showAddCommentForm = this.showAddCommentForm.bind(this);
   }
 
   componentDidMount() {
@@ -49,12 +55,37 @@ export default class PostDetail extends React.Component {
     }
   }
 
+  showAddCommentForm() {
+    this.setState({
+      addCommentButton: false,
+      addCommentForm: true,
+    });
+  }
+
+  renderAddCommentButton() {
+    if (this.state.addCommentButton) {
+      return (
+        <div>
+          <div>
+            <button onClick={this.showAddCommentForm}>
+              Add comment
+          </button>
+          </div>
+          <br />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     const { post } = this.state;
     const { comments } = post;
-    var commentDom = '';
+    let commentDOM = '';
     if (comments) {
-      commentDom = comments.map(comment => (
+      comments.sort((a, b) => (a.createdOn > b.createdOn ? -1 : a.createdOn < b.createdOn ? 1 : 0));
+      commentDOM = comments.map(comment => (
         <Comment key={comment._id} comment={comment} />
       ));
     }
@@ -67,7 +98,8 @@ export default class PostDetail extends React.Component {
         </div>
         <div>
           <h3>Comments</h3>
-          {commentDom}
+          {this.renderAddCommentButton()}
+          {commentDOM}
         </div>
       </div>
     );
