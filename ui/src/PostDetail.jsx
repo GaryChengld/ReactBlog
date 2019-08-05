@@ -6,7 +6,10 @@ function Comment({ comment }) {
   return (
     <div>
       <div>
-        <b>{comment.author}</b> - {comment.createdOn.toLocaleString()}<br />
+        <b>{comment.author}</b>
+        &nbsp;-&nbsp;
+        {comment.createdOn.toLocaleString()}
+        <br />
         {comment.comment}
       </div>
       <br />
@@ -63,20 +66,20 @@ export default class PostDetail extends React.Component {
   }
 
   renderAddCommentButton() {
-    if (this.state.addCommentButton) {
+    const { addCommentButton } = this.state;
+    if (addCommentButton) {
       return (
         <div>
           <div>
-            <button onClick={this.showAddCommentForm}>
+            <button type="button" onClick={this.showAddCommentForm}>
               Add comment
-          </button>
+            </button>
           </div>
           <br />
         </div>
       );
-    } else {
-      return null;
     }
+    return null;
   }
 
   render() {
