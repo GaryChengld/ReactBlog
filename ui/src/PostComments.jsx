@@ -39,14 +39,16 @@ export default class PostComments extends React.Component {
   }
 
   handleSubmit(event) {
-    const { author } = this.state;
-    console(author);
     event.preventDefault();
+    const { newComment } = this.state;
+    console.log(newComment);
   }
 
   handleChange(event) {
     const { target: { name, value } } = event;
-    this.setState({ newComment: { [name]: value } });
+    let { newComment } = this.state;
+    newComment[name] = value;
+    this.setState({ newComment });
   }
 
   renderAddButton() {
