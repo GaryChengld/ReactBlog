@@ -49,7 +49,7 @@ export default class PostDetail extends React.Component {
           <h3>{post.title}</h3>
           <pre>{post.body}</pre>
         </div>
-        <PostComments post={post} />
+        {post ? (<PostComments post={post} />) : (null)}
       </div>
     );
   }

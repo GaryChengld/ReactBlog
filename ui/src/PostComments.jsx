@@ -21,8 +21,14 @@ export default class PostComments extends React.Component {
     this.state = {
       showAddButton: true,
       showForm: false,
+      newComment: {
+        author: '',
+        comment: '',
+      },
     };
     this.showForm = this.showForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   showForm() {
@@ -30,6 +36,17 @@ export default class PostComments extends React.Component {
       showAddButton: false,
       showForm: true,
     });
+  }
+
+  handleSubmit(event) {
+    const { author } = this.state;
+    console(author);
+    event.preventDefault();
+  }
+
+  handleChange(event) {
+    const { target: { name, value } } = event;
+    this.setState({ newComment: { [name]: value } });
   }
 
   renderAddButton() {
@@ -49,6 +66,33 @@ export default class PostComments extends React.Component {
     return null;
   }
 
+  renderForm() {
+    const { showForm } = this.state;
+    const { newComment: { author, comment } } = this.state;
+
+    if (showForm) {
+      return (
+        <React.Fragment>
+          <form onSubmit={this.handleSubmit}>
+            <label htmlFor="author">Author:
+              <br />
+              <input type="text" name="author" value={author} onChange={this.handleChange} />
+            </label>
+            <br />
+            <label htmlFor="comment">Comment:
+              <br />
+              <textarea name="comment" value={comment} onChange={this.handleChange} rows="10" cols="80" />
+            </label>
+            <br />
+            <input type="submit" value="Submit" />
+          </form>
+          <br />
+        </React.Fragment>
+      );
+    }
+    return null;
+  }
+
   render() {
     const { post: { comments } } = this.props;
     let commentsDOM = '';
@@ -63,6 +107,7 @@ export default class PostComments extends React.Component {
       <div>
         <h3>Comments</h3>
         {this.renderAddButton()}
+        {this.renderForm()}
         {commentsDOM}
       </div>
     );
