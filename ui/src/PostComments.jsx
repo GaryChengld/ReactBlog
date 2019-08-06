@@ -42,6 +42,12 @@ export default class PostComments extends React.Component {
     event.preventDefault();
     const { newComment } = this.state;
     console.log(newComment);
+    this.setState({
+      newComment: {
+        author: '',
+        comment: '',
+      }
+    });
   }
 
   handleChange(event) {
