@@ -19,24 +19,24 @@ const findByAuthor = (author) => {
     .select('id title tags');
 };
 
-const create = (post) => {
+const createPost = (post) => {
   console.log('create a new post');
   console.log(post);
   return Post.create(post);
 };
 
-const update = (id, post) => {
+const updatePost = (id, post) => {
   console.log(`update a post, post id=${id}`);
   console.log(post);
   return Post.findByIdAndUpdate(id, { $set: { ...post, updatedOn: Date.now() } }, { new: true });
 };
 
-const remove = (id) => {
+const removePost = (id) => {
   console.log(`remove a post, post id=${id}`);
   return Post.findByIdAndRemove(id);
 };
 
-const search = (text) => {
+const searchPosts = (text) => {
   console.log(`search by text, keyword=${text}`);
   return Post.find(
     { $text: { $search: text } },
@@ -47,5 +47,5 @@ const search = (text) => {
 };
 
 module.exports = {
-  latestPosts, findById, findByAuthor, create, update, remove, search,
+  latestPosts, findById, findByAuthor, createPost, updatePost, removePost, searchPosts,
 };

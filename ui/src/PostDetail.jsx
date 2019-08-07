@@ -9,6 +9,7 @@ export default class PostDetail extends React.Component {
     this.state = {
       post: {},
     };
+    this.addComment = this.addComment.bind(this);
   }
 
   componentDidMount() {
@@ -35,10 +36,17 @@ export default class PostDetail extends React.Component {
 
     const data = await graphqlFetch(query, { id });
     if (data) {
-      this.setState({ post: data.post });
+      const { post } = data;
+      post.comments.sort((a, b) => (a.createdOn > b.createdOn
+        ? -1 : a.createdOn < b.createdOn ? 1 : 0));
+      this.setState({ post });
     } else {
       this.setState({ post: {} });
     }
+  }
+
+  async addComment(comment) {
+    
   }
 
   render() {
@@ -49,7 +57,7 @@ export default class PostDetail extends React.Component {
           <h3>{post.title}</h3>
           <pre>{post.body}</pre>
         </div>
-        {post ? (<PostComments post={post} />) : (null)}
+        {post ? (<PostComments post={post} addComment={this.addComment} />) : (null)}
       </div>
     );
   }

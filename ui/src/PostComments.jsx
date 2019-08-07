@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Comment({ comment }) {
   return (
@@ -21,12 +22,9 @@ export default class PostComments extends React.Component {
     this.state = {
       showAddButton: true,
       showForm: false,
-      newComment: {
-        author: '',
-        comment: '',
-      },
     };
     this.showForm = this.showForm.bind(this);
+    this.hideForm = this.hideForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -35,19 +33,31 @@ export default class PostComments extends React.Component {
     this.setState({
       showAddButton: false,
       showForm: true,
+      newComment: {
+        author: '',
+        comment: '',
+      },
+    });
+  }
+
+  hideForm() {
+    this.setState({
+      showAddButton: true,
+      showForm: false,
+      errorMessage: '',
     });
   }
 
   handleSubmit(event) {
     event.preventDefault();
     const { newComment } = this.state;
-    console.log(newComment);
-    this.setState({
-      newComment: {
-        author: '',
-        comment: '',
-      }
-    });
+    if (this.formIsValid(newComment)) {
+      const { addComment } = this.props;
+      addComment(newComment);
+      this.hideForm();
+    } else {
+      this.setState({ errorMessage: 'All fields requried, please try again' });
+    }
   }
 
   handleChange(event) {
@@ -57,56 +67,55 @@ export default class PostComments extends React.Component {
     this.setState({ newComment });
   }
 
-  renderAddButton() {
-    const { showAddButton } = this.state;
-    if (showAddButton) {
-      return (
-        <div>
-          <div>
-            <button type="button" onClick={this.showForm}>
-              Add comment
-            </button>
-          </div>
-          <br />
-        </div>
-      );
+  formIsValid(newComment) {
+    if (newComment.author && newComment.comment) {
+      return true;
+    } else {
+      return false;
     }
-    return null;
+  }
+  renderAddButton() {
+    return (
+      <div>
+        <div>
+          <button type="button" onClick={this.showForm}>
+            Add comment
+          </button>
+        </div>
+        <br />
+      </div>
+    );
   }
 
   renderForm() {
-    const { showForm } = this.state;
-    const { newComment: { author, comment } } = this.state;
-
-    if (showForm) {
-      return (
-        <React.Fragment>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="author">Author:
-              <br />
-              <input type="text" name="author" value={author} onChange={this.handleChange} />
-            </label>
+    const { newComment: { author, comment }, errorMessage } = this.state;
+    return (
+      <React.Fragment>
+        {errorMessage && (<div><b>{errorMessage}</b><br /></div>)}
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="author">Author:
             <br />
-            <label htmlFor="comment">Comment:
-              <br />
-              <textarea name="comment" value={comment} onChange={this.handleChange} rows="10" cols="80" />
-            </label>
-            <br />
-            <input type="submit" value="Submit" />
-          </form>
+            <input type="text" name="author" value={author} onChange={this.handleChange} />
+          </label>
           <br />
-        </React.Fragment>
-      );
-    }
-    return null;
+          <label htmlFor="comment">Comment:
+            <br />
+            <textarea name="comment" value={comment} onChange={this.handleChange} rows="10" cols="80" />
+          </label>
+          <br />
+          <input type="submit" value="Submit" />
+        </form>
+        <br />
+      </React.Fragment>
+    );
   }
 
   render() {
     const { post: { comments } } = this.props;
-    let commentsDOM = '';
+    const { showAddButton, showForm, errorMessage } = this.state;
+    let commentsHTML = '';
     if (comments) {
-      comments.sort((a, b) => (a.createdOn > b.createdOn ? -1 : a.createdOn < b.createdOn ? 1 : 0));
-      commentsDOM = comments.map(comment => (
+      commentsHTML = comments.map(comment => (
         <Comment key={comment._id} comment={comment} />
       ));
     }
@@ -114,10 +123,14 @@ export default class PostComments extends React.Component {
     return (
       <div>
         <h3>Comments</h3>
-        {this.renderAddButton()}
-        {this.renderForm()}
-        {commentsDOM}
+        {showAddButton && this.renderAddButton()}
+        {showForm && this.renderForm()}
+        {commentsHTML}
       </div>
     );
   }
 }
+
+PostComments.propTypes = {
+  addComment: PropTypes.func.isRequired,
+};

@@ -4,11 +4,15 @@ const { ApolloServer } = require('apollo-server-express');
 
 const GraphQLDate = require('./graphql_date.js');
 const postsService = require('../posts/postsService');
+const commentsService = require('../posts/commentsService');
 
 const resolvers = {
   Query: {
     postList: postsService.latestPosts,
     post: postsService.findById,
+  },
+  Mutation: {
+    addComment: commentsService.addComment,
   },
   GraphQLDate,
 };

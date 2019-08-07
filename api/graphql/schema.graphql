@@ -18,7 +18,19 @@ type Post {
   comments: [Comment!]
 }
 
+input CommentInputs {
+  author: String!,
+  comment: String!
+}
+
 type Query {
   postList(limit: Int): [Post!]!
-  post(id: String!): Post!
+  post(id: String!): Post!  
+}
+
+type Mutation {
+  addComment(
+    postId: String!
+    comment: CommentInputs!
+  ): Post!
 }
