@@ -64,9 +64,9 @@ export default class PostComments extends React.Component {
 
   handleChange(event) {
     const { target: { name, value } } = event;
-    let { newComment } = this.state;
-    newComment[name] = value;
-    this.setState({ newComment });
+    this.setState(prevState => ({
+      newComment: { ...prevState.newComment, [name]: value },
+    }));    
   }
 
   formIsValid(newComment) {
