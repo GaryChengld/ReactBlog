@@ -45,8 +45,32 @@ export default class PostDetail extends React.Component {
     }
   }
 
-  async addComment(comment) {
-    
+  async addComment(newComment) {
+    const { match: { params: { id } } } = this.props;
+    const query = `mutation addComment( 
+      $postId: String!
+      $comment: CommentInputs!) {
+      addComment(
+          postId: $postId
+          comment: $comment
+      )
+      {
+        _id
+        author
+        comment
+        createdOn
+      }
+    }`;
+    const data = await graphqlFetch(query, { postId: id, comment: newComment });
+    if (data) {
+      const { addComment } = data;
+      const { post } = this.state;
+      let comments = post.comments.slice(0);
+      comments.unshift(addComment);
+      post.comments = comments;
+      this.setState({ post });
+    }
+    return data;
   }
 
   render() {

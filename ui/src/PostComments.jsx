@@ -48,13 +48,15 @@ export default class PostComments extends React.Component {
     });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const { newComment } = this.state;
     if (this.formIsValid(newComment)) {
       const { addComment } = this.props;
-      addComment(newComment);
-      this.hideForm();
+      const data = await addComment(newComment);
+      if (data) {
+        this.hideForm();
+      }
     } else {
       this.setState({ errorMessage: 'All fields requried, please try again' });
     }
