@@ -65,7 +65,7 @@ export default class PostDetail extends React.Component {
     if (data) {
       const { addComment } = data;
       const { post } = this.state;
-      let comments = post.comments.slice(0);
+      const comments = post.comments.slice(0);
       comments.unshift(addComment);
       post.comments = comments;
       this.setState({ post });

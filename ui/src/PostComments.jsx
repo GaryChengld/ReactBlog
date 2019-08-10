@@ -17,6 +17,13 @@ function Comment({ comment }) {
 }
 
 export default class PostComments extends React.Component {
+  static isFormValid(newComment) {
+    if (newComment.author && newComment.comment) {
+      return true;
+    }
+    return false;
+  }
+
   constructor() {
     super();
     this.state = {
@@ -51,7 +58,7 @@ export default class PostComments extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     const { newComment } = this.state;
-    if (this.formIsValid(newComment)) {
+    if (this.isFormValid(newComment)) {
       const { addComment } = this.props;
       const data = await addComment(newComment);
       if (data) {
@@ -66,16 +73,9 @@ export default class PostComments extends React.Component {
     const { target: { name, value } } = event;
     this.setState(prevState => ({
       newComment: { ...prevState.newComment, [name]: value },
-    }));    
+    }));
   }
 
-  formIsValid(newComment) {
-    if (newComment.author && newComment.comment) {
-      return true;
-    } else {
-      return false;
-    }
-  }
   renderAddButton() {
     return (
       <div>
@@ -114,7 +114,7 @@ export default class PostComments extends React.Component {
 
   render() {
     const { post: { comments } } = this.props;
-    const { showAddButton, showForm, errorMessage } = this.state;
+    const { showAddButton, showForm } = this.state;
     let commentsHTML = '';
     if (comments) {
       commentsHTML = comments.map(comment => (

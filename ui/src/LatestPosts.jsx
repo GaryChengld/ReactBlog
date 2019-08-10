@@ -33,7 +33,7 @@ export default class LatestPosts extends React.Component {
     const { posts } = this.state;
     return (
       <React.Fragment>
-        <h1>New Posts</h1>
+        <h1>Latest Posts</h1>
         <PostList posts={posts} />
       </React.Fragment>
     );

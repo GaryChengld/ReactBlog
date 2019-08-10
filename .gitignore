@@ -66,3 +66,5 @@ typings/
 
 ui/public/*.js
 ui/public/*.map
+ui/public/bootstrap
+
