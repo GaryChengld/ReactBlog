@@ -9,6 +9,7 @@
     "react/jsx-one-expression-per-line": "off",
     "linebreak-style": "off",
     "no-underscore-dangle": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "class-methods-use-this": "off"
   }
 }

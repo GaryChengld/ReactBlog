@@ -6,7 +6,7 @@ function Comment({ comment }) {
     <div>
       <div>
         <b>{comment.author}</b>
-        &nbsp;-&nbsp;
+        {' - '}
         {comment.createdOn.toLocaleString()}
         <br />
         {comment.comment}
@@ -17,13 +17,6 @@ function Comment({ comment }) {
 }
 
 export default class PostComments extends React.Component {
-  static isFormValid(newComment) {
-    if (newComment.author && newComment.comment) {
-      return true;
-    }
-    return false;
-  }
-
   constructor() {
     super();
     this.state = {
@@ -34,6 +27,7 @@ export default class PostComments extends React.Component {
     this.hideForm = this.hideForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.isFormValid = this.isFormValid.bind(this);
   }
 
   showForm() {
@@ -53,6 +47,13 @@ export default class PostComments extends React.Component {
       showForm: false,
       errorMessage: '',
     });
+  }
+
+  isFormValid(newComment) {
+    if (newComment.author && newComment.comment) {
+      return true;
+    }
+    return false;
   }
 
   async handleSubmit(event) {
