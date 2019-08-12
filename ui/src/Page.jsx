@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 
 import NavBar from './NavBar.jsx';
 import AppRouter from './AppRouter.jsx';
@@ -6,10 +7,10 @@ import AppRouter from './AppRouter.jsx';
 export default function Page() {
   return (
     <div>
-      <NavBar />
-      <div className="container content">
+      <Container fluid>
+        <NavBar />
         <AppRouter />
-      </div>
+      </Container>
     </div>
   );
 }
