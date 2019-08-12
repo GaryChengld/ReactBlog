@@ -1,21 +1,12 @@
 import React from 'react';
-import {
-  Navbar, Nav, NavItem, NavDropdown,
-  MenuItem, Glyphicon,
-  Grid,
-} from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 
 export default function NavBar() {
   return (
-    <Navbar fluid>
-      <Navbar.Header>
-        <Navbar.Brand>React Blog</Navbar.Brand>
-      </Navbar.Header>
-      <Nav>
-        <LinkContainer exact to="/">
-          <NavItem>Home</NavItem>
-        </LinkContainer>
+    <Navbar bg="dark" variant="dark" expand="md" fixed="top">
+      <Navbar.Brand>React-Blog</Navbar.Brand>
+      <Nav className="mr-auto">
+        <Nav.Link href="/">Home</Nav.Link>
       </Nav>
     </Navbar>
   );

@@ -7,7 +7,9 @@ export default function Page() {
   return (
     <div>
       <NavBar />
-      <AppRouter />
+      <div className="container content">
+        <AppRouter />
+      </div>
     </div>
   );
 }
