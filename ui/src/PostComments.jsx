@@ -125,7 +125,8 @@ export default class PostComments extends React.Component {
 
     return (
       <div>
-        <h3>Comments</h3>
+        <hr />
+        <h5>Comments</h5>
         {showAddButton && this.renderAddButton()}
         {showForm && this.renderForm()}
         {commentsHTML}

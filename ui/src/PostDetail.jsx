@@ -2,6 +2,7 @@ import React from 'react';
 
 import PostComments from './PostComments.jsx';
 import graphqlFetch from './graphqlFetch.js';
+import Utils from './Utils.js';
 
 export default class PostDetail extends React.Component {
   constructor() {
@@ -75,11 +76,12 @@ export default class PostDetail extends React.Component {
 
   render() {
     const { post } = this.state;
+    const htmlBody = post.body ? Utils.HtmlLineBreaks(post.body) : '';
     return (
       <div>
         <div>
-          <h3>{post.title}</h3>
-          <pre>{post.body}</pre>
+          <h4>{post.title}</h4>
+          <div dangerouslySetInnerHTML={{ __html: htmlBody }} />
         </div>
         {post ? (<PostComments post={post} addComment={this.addComment} />) : (null)}
       </div>

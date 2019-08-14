@@ -6,3 +6,7 @@ body {
 table.table-hover tr {
   cursor: pointer;
 }
+
+.bs-linebreak {
+  height: 10px;
+}
