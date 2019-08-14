@@ -1,14 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { LinkContainer } from 'react-router-bootstrap';
+import { Table } from 'react-bootstrap';
 
 function PostRow({ post }) {
+  const selectLocation = { pathname: `/post/${post._id}` };
   return (
-    <tr>
-      <td><Link to={`/post/${post._id}`}>{post.title}</Link></td>
-      <td>{post.author}</td>
-      <td>{post.createdOn.toLocaleString()}</td>
-    </tr>
+    <LinkContainer to={selectLocation}>
+      <tr>
+        <td>{post.title}</td>
+        <td>{post.author}</td>
+        <td>{post.createdOn.toLocaleString()}</td>
+      </tr>
+    </LinkContainer>
   );
 }
 
@@ -17,7 +20,7 @@ export default function PostList({ posts }) {
     <PostRow key={post._id} post={post} />
   ));
   return (
-    <table className="bordered-table">
+    <Table bordered hover responsive size="sm">
       <thead>
         <tr>
           <th>Title</th>
@@ -28,6 +31,6 @@ export default function PostList({ posts }) {
       <tbody>
         {postRows}
       </tbody>
-    </table>
+    </Table>
   );
 }

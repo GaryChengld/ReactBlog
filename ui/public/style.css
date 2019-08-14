@@ -2,3 +2,7 @@ body {
   padding-top: 5rem;
   padding-bottom: 3rem;
 }
+
+table.table-hover tr {
+  cursor: pointer;
+}
