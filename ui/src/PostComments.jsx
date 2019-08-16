@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'react-bootstrap';
 
 function Comment({ comment }) {
   return (
-    <div>
-      <div>
+    <Row>
+      <Col>
         <b>{comment.author}</b>
         {' - '}
         {comment.createdOn.toLocaleString()}
         <br />
         {comment.comment}
-      </div>
-      <br />
-    </div>
+      </Col>
+    </Row>
   );
 }
 

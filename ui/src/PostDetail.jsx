@@ -1,8 +1,9 @@
 import React from 'react';
+import { Row, Col } from 'react-bootstrap';
 
 import PostComments from './PostComments.jsx';
 import graphqlFetch from './graphqlFetch.js';
-import Utils from './Utils.js';
+import { HtmlLineBreaks } from './Utils.js';
 
 export default class PostDetail extends React.Component {
   constructor() {
@@ -62,6 +63,7 @@ export default class PostDetail extends React.Component {
         createdOn
       }
     }`;
+
     const data = await graphqlFetch(query, { postId: id, comment: newComment });
     if (data) {
       const { addComment } = data;
@@ -76,15 +78,17 @@ export default class PostDetail extends React.Component {
 
   render() {
     const { post } = this.state;
-    const htmlBody = post.body ? Utils.HtmlLineBreaks(post.body) : '';
+    const htmlBody = HtmlLineBreaks(post.body);
     return (
-      <div>
-        <div>
-          <h4>{post.title}</h4>
-          <div dangerouslySetInnerHTML={{ __html: htmlBody }} />
-        </div>
+      <React.Fragment>
+        <Row>
+          <Col>
+            <h4>{post.title}</h4>
+            <div dangerouslySetInnerHTML={{ __html: htmlBody }} />
+          </Col>
+        </Row>
         {post ? (<PostComments post={post} addComment={this.addComment} />) : (null)}
-      </div>
+      </React.Fragment>
     );
   }
 }
