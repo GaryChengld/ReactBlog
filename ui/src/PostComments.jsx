@@ -45,7 +45,6 @@ export default class PostComments extends React.Component {
     this.setState({
       showAddButton: true,
       showForm: false,
-      errorMessage: '',
     });
   }
 

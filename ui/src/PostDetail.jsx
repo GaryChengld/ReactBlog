@@ -11,13 +11,10 @@ export default class PostDetail extends React.Component {
     super();
     this.state = {
       post: {},
-      toastVisible: false,
       toastMessage: '',
-      toastType: 'info',
     };
     this.addComment = this.addComment.bind(this);
     this.showError = this.showError.bind(this);
-    this.dismissToast = this.dismissToast.bind(this);
   }
 
   componentDidMount() {
@@ -25,13 +22,8 @@ export default class PostDetail extends React.Component {
   }
 
   showError(message) {
-    this.setState({
-      toastVisible: true, toastMessage: message, toastType: 'danger',
-    });
-  }
-
-  dismissToast() {
-    this.setState({ toastVisible: false });
+    this.setState({ toastMessage: message });
+    this.refs.toast.showError();
   }
 
   async loadData() {
@@ -94,28 +86,20 @@ export default class PostDetail extends React.Component {
 
   render() {
     const { post } = this.state;
-    const { toastVisible, toastType, toastMessage } = this.state;
+    const { toastMessage } = this.state;
     const htmlBody = HtmlLineBreaks(post.body);
     return (
       <React.Fragment>
         <Row>
           <Col>
             <h4>{post.title}</h4>
-            <div dangerouslySetInnerHTML={{ __html: htmlBody }} />
+            <div dangerouslySetInnerHTML={{ __html: htmlBody }} className="bg-light" />
           </Col>
         </Row>
-        <div>
-          {post ? (<PostComments post={post} addComment={this.addComment} showError={this.showError} />) : (null)}
-        </div>
-        <div>
-          <Toast
-            showing={toastVisible}
-            onDismiss={this.dismissToast}
-            variant={toastType}
-          >
-            {toastMessage}
-          </Toast>
-        </div>
+        {post ? (<PostComments post={post} addComment={this.addComment} showError={this.showError} />) : (null)}
+        <Toast ref="toast">
+          {toastMessage}
+        </Toast>
       </React.Fragment>
     );
   }
