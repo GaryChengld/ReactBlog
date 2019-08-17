@@ -66,7 +66,8 @@ export default class PostComments extends React.Component {
         this.hideForm();
       }
     } else {
-      this.setState({ errorMessage: 'All fields requried, please try again' });
+      const { showError } = this.props;
+      showError('All fields requried, please try again');
     }
   }
 
@@ -91,10 +92,9 @@ export default class PostComments extends React.Component {
   }
 
   renderForm() {
-    const { newComment: { author, comment }, errorMessage } = this.state;
+    const { newComment: { author, comment } } = this.state;
     return (
       <React.Fragment>
-        {errorMessage && (<div><b>{errorMessage}</b><br /></div>)}
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="author">Author:
             <br />
@@ -137,4 +137,5 @@ export default class PostComments extends React.Component {
 
 PostComments.propTypes = {
   addComment: PropTypes.func.isRequired,
+  showError: PropTypes.func.isRequired,
 };

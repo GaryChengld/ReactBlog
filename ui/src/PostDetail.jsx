@@ -4,18 +4,34 @@ import { Row, Col } from 'react-bootstrap';
 import PostComments from './PostComments.jsx';
 import graphqlFetch from './graphqlFetch.js';
 import { HtmlLineBreaks } from './Utils.js';
+import Toast from './Toast.jsx';
 
 export default class PostDetail extends React.Component {
   constructor() {
     super();
     this.state = {
       post: {},
+      toastVisible: false,
+      toastMessage: '',
+      toastType: 'info',
     };
     this.addComment = this.addComment.bind(this);
+    this.showError = this.showError.bind(this);
+    this.dismissToast = this.dismissToast.bind(this);
   }
 
   componentDidMount() {
     this.loadData();
+  }
+
+  showError(message) {
+    this.setState({
+      toastVisible: true, toastMessage: message, toastType: 'danger',
+    });
+  }
+
+  dismissToast() {
+    this.setState({ toastVisible: false });
   }
 
   async loadData() {
@@ -78,6 +94,7 @@ export default class PostDetail extends React.Component {
 
   render() {
     const { post } = this.state;
+    const { toastVisible, toastType, toastMessage } = this.state;
     const htmlBody = HtmlLineBreaks(post.body);
     return (
       <React.Fragment>
@@ -87,7 +104,18 @@ export default class PostDetail extends React.Component {
             <div dangerouslySetInnerHTML={{ __html: htmlBody }} />
           </Col>
         </Row>
-        {post ? (<PostComments post={post} addComment={this.addComment} />) : (null)}
+        <div>
+          {post ? (<PostComments post={post} addComment={this.addComment} showError={this.showError} />) : (null)}
+        </div>
+        <div>
+          <Toast
+            showing={toastVisible}
+            onDismiss={this.dismissToast}
+            variant={toastType}
+          >
+            {toastMessage}
+          </Toast>
+        </div>
       </React.Fragment>
     );
   }
