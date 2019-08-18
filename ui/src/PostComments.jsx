@@ -1,16 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col } from 'react-bootstrap';
+import {
+  Button, Row, Col, Form,
+} from 'react-bootstrap';
+
+import { HtmlLineBreaks } from './Utils.js';
 
 function Comment({ comment }) {
+  const htmlBody = HtmlLineBreaks(comment.comment);
   return (
     <Row>
-      <Col>
+      <Col md={12}>
         <b>{comment.author}</b>
         {' - '}
         {comment.createdOn.toLocaleString()}
         <br />
-        {comment.comment}
+        <div dangerouslySetInnerHTML={{ __html: htmlBody }} />
       </Col>
     </Row>
   );
@@ -79,36 +84,43 @@ export default class PostComments extends React.Component {
 
   renderAddButton() {
     return (
-      <div>
-        <div>
-          <button type="button" onClick={this.showForm}>
-            Add comment
-          </button>
-        </div>
-        <br />
-      </div>
+      <React.Fragment>
+        <Row>
+          <Col>
+            <Button variant="primary" size="sm" onClick={this.showForm}>
+              Add comment
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12} className="bs-linebreak" />
+        </Row>
+      </React.Fragment>
     );
   }
 
   renderForm() {
     const { newComment: { author, comment } } = this.state;
     return (
-      <React.Fragment>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="author">Author:
-            <br />
-            <input type="text" name="author" value={author} onChange={this.handleChange} />
-          </label>
-          <br />
-          <label htmlFor="comment">Comment:
-            <br />
-            <textarea name="comment" value={comment} onChange={this.handleChange} rows="10" cols="80" />
-          </label>
-          <br />
-          <input type="submit" value="Submit" />
-        </form>
-        <br />
-      </React.Fragment>
+      <Row>
+        <Col md={6}>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group controlId="author">
+              <Form.Label>Author</Form.Label>
+              <Form.Control type="text" name="author" value={author} onChange={this.handleChange} />
+            </Form.Group>
+            <Form.Group controlId="comment">
+              <Form.Label>Comment</Form.Label>
+              <Form.Control as="textarea" rows="5" name="comment" value={comment} onChange={this.handleChange} />
+            </Form.Group>
+            <Form.Group>
+              <Button type="submit">Submit</Button>
+              {' '}
+              <Button variant="danger" onClick={this.hideForm}>Cancel</Button>
+            </Form.Group>
+          </Form>
+        </Col>
+      </Row>
     );
   }
 

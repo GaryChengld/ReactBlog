@@ -10,10 +10,12 @@ export default class PostDetail extends React.Component {
   constructor() {
     super();
     this.state = {
-      post: {},
+      toastVisible: false,
       toastMessage: '',
+      toastType: 'info',
     };
     this.addComment = this.addComment.bind(this);
+    this.dismissToast = this.dismissToast.bind(this);
     this.showError = this.showError.bind(this);
   }
 
@@ -22,8 +24,13 @@ export default class PostDetail extends React.Component {
   }
 
   showError(message) {
-    this.setState({ toastMessage: message });
-    this.refs.toast.showError();
+    this.setState({
+      toastVisible: true, toastMessage: message, toastType: 'danger',
+    });
+  }
+
+  dismissToast() {
+    this.setState({ toastVisible: false });
   }
 
   async loadData() {
@@ -44,7 +51,7 @@ export default class PostDetail extends React.Component {
         }
       }`;
 
-    const data = await graphqlFetch(query, { id });
+    const data = await graphqlFetch(query, { id }, this.showError);
     if (data) {
       const { post } = data;
       post.comments.sort((a, b) => (a.createdOn > b.createdOn
@@ -72,7 +79,7 @@ export default class PostDetail extends React.Component {
       }
     }`;
 
-    const data = await graphqlFetch(query, { postId: id, comment: newComment });
+    const data = await graphqlFetch(query, { postId: id, comment: newComment }, this.showError);
     if (data) {
       const { addComment } = data;
       const { post } = this.state;
@@ -86,21 +93,28 @@ export default class PostDetail extends React.Component {
 
   render() {
     const { post } = this.state;
-    const { toastMessage } = this.state;
-    const htmlBody = HtmlLineBreaks(post.body);
-    return (
-      <React.Fragment>
-        <Row>
-          <Col>
-            <h4>{post.title}</h4>
-            <div dangerouslySetInnerHTML={{ __html: htmlBody }} className="bg-light" />
-          </Col>
-        </Row>
-        {post ? (<PostComments post={post} addComment={this.addComment} showError={this.showError} />) : (null)}
-        <Toast ref="toast">
-          {toastMessage}
-        </Toast>
-      </React.Fragment>
-    );
+    const { toastVisible, toastType, toastMessage } = this.state;
+    if (post) {
+      const htmlBody = HtmlLineBreaks(post.body);
+      return (
+        <React.Fragment>
+          <Row>
+            <Col>
+              <h4>{post.title}</h4>
+              <p>
+                Author: {post.author}<br />
+                Date: {post.createdOn.toLocaleString()}
+              </p>
+              <div dangerouslySetInnerHTML={{ __html: htmlBody }} className="bg-light" />
+            </Col>
+          </Row>
+          <PostComments post={post} addComment={this.addComment} showError={this.showError} />
+          <Toast showing={toastVisible} variant={toastType} onDismiss={this.dismissToast}>
+            {toastMessage}
+          </Toast>
+        </React.Fragment>
+      );
+    }
+    return '';
   }
 }
