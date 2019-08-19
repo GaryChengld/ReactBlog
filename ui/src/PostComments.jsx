@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, Row, Col, Form,
+  ButtonToolbar, Button, Row, Col, Form,
 } from 'react-bootstrap';
 
 import { HtmlLineBreaks } from './Utils.js';
@@ -113,11 +113,10 @@ export default class PostComments extends React.Component {
               <Form.Label>Comment</Form.Label>
               <Form.Control as="textarea" rows="5" name="comment" value={comment} onChange={this.handleChange} />
             </Form.Group>
-            <Form.Group>
+            <div className="btn-toolbar">
               <Button type="submit">Submit</Button>
-              {' '}
-              <Button variant="danger" onClick={this.hideForm}>Cancel</Button>
-            </Form.Group>
+              <Button variant="link" onClick={this.hideForm}>Cancel</Button>
+            </div>
           </Form>
         </Col>
       </Row>

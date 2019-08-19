@@ -10,3 +10,7 @@ table.table-hover tr {
 .bs-linebreak {
   height: 10px;
 }
+
+.btn-toolbar .btn {
+  margin-right: 5px;
+}
