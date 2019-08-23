@@ -4,36 +4,21 @@ import { Row, Col } from 'react-bootstrap';
 import PostComments from './PostComments.jsx';
 import graphqlFetch from './graphqlFetch.js';
 import { HtmlLineBreaks } from './Utils.js';
-import Toast from './Toast.jsx';
+import withToast from './withToast.jsx';
 
-export default class PostDetail extends React.Component {
+class PostDetail extends React.Component {
   constructor() {
     super();
-    this.state = {
-      toastVisible: false,
-      toastMessage: '',
-      toastType: 'info',
-    };
+    this.state = {};
     this.addComment = this.addComment.bind(this);
-    this.dismissToast = this.dismissToast.bind(this);
-    this.showError = this.showError.bind(this);
   }
 
   componentDidMount() {
     this.loadData();
   }
 
-  showError(message) {
-    this.setState({
-      toastVisible: true, toastMessage: message, toastType: 'danger',
-    });
-  }
-
-  dismissToast() {
-    this.setState({ toastVisible: false });
-  }
-
   async loadData() {
+    const { showError } = this.props;
     const { match: { params: { id } } } = this.props;
     const query = `
       query post($id: String!) {
@@ -51,7 +36,7 @@ export default class PostDetail extends React.Component {
         }
       }`;
 
-    const data = await graphqlFetch(query, { id }, this.showError);
+    const data = await graphqlFetch(query, { id }, showError);
     if (data) {
       const { post } = data;
       post.comments.sort((a, b) => (a.createdOn > b.createdOn
@@ -63,6 +48,7 @@ export default class PostDetail extends React.Component {
   }
 
   async addComment(newComment) {
+    const { showError } = this.props;
     const { match: { params: { id } } } = this.props;
     const query = `mutation addComment( 
       $postId: String!
@@ -79,7 +65,7 @@ export default class PostDetail extends React.Component {
       }
     }`;
 
-    const data = await graphqlFetch(query, { postId: id, comment: newComment }, this.showError);
+    const data = await graphqlFetch(query, { postId: id, comment: newComment }, showError);
     if (data) {
       const { addComment } = data;
       const { post } = this.state;
@@ -92,8 +78,8 @@ export default class PostDetail extends React.Component {
   }
 
   render() {
+    const { showError } = this.props;
     const { post } = this.state;
-    const { toastVisible, toastType, toastMessage } = this.state;
     if (post) {
       const htmlBody = HtmlLineBreaks(post.body);
       return (
@@ -108,13 +94,13 @@ export default class PostDetail extends React.Component {
               <div dangerouslySetInnerHTML={{ __html: htmlBody }} className="bg-light" />
             </Col>
           </Row>
-          <PostComments post={post} addComment={this.addComment} showError={this.showError} />
-          <Toast showing={toastVisible} variant={toastType} onDismiss={this.dismissToast}>
-            {toastMessage}
-          </Toast>
+          <PostComments post={post} addComment={this.addComment} showError={showError} />
         </React.Fragment>
       );
     }
     return '';
   }
 }
+
+const PostDetailWithToast = withToast(PostDetail);
+export default PostDetailWithToast;
