@@ -18,8 +18,10 @@ class PostDetail extends React.Component {
   }
 
   async loadData() {
-    const { showError } = this.props;
-    const { match: { params: { id } } } = this.props;
+    const {
+      showError,
+      match: { params: { id } },
+    } = this.props;
     const query = `
       query post($id: String!) {
         post (id: $id) {
@@ -48,8 +50,10 @@ class PostDetail extends React.Component {
   }
 
   async addComment(newComment) {
-    const { showError } = this.props;
-    const { match: { params: { id } } } = this.props;
+    const {
+      showError,
+      match: { params: { id } },
+    } = this.props;
     const query = `mutation addComment( 
       $postId: String!
       $comment: CommentInputs!) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  ButtonToolbar, Button, Row, Col, Form,
+  Button, Row, Col, Form,
 } from 'react-bootstrap';
 
 import { HtmlLineBreaks } from './Utils.js';
