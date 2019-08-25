@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Nav, Modal, Button, NavDropdown, MenuItem,
+  Nav, NavDropdown, Modal, Button,
 } from 'react-bootstrap';
 
 export default class SigninNavItem extends React.Component {
@@ -36,18 +36,46 @@ export default class SigninNavItem extends React.Component {
 
   onSelect(selectedKey) {
     if (selectedKey === 'signIn') {
-      alert("signin");
-      this.signIn();
+      this.showModal();
+    } else if (selectedKey === 'signOut') {
+      this.signOut();
     }
   }
 
   render() {
+    const { user } = this.state;
+    if (user.signedIn) {
+      return (
+        <Nav activeKey="1" onSelect={selectedKey => this.onSelect(selectedKey)}>
+          <NavDropdown title={user.username} id="user" alignRight={true}>
+            <NavDropdown.Item eventKey="signOut">Sign out</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+      );
+    }
+
+    const { showing } = this.state;
     return (
-      <Nav onSelect={selectedKey => this.onSelect(selectedKey)}>
-        <Nav.Item>
-          <Nav.Link eventKey="signIn">Sign in</Nav.Link>
-        </Nav.Item>
-      </Nav>
+      <>
+        <Nav onSelect={selectedKey => this.onSelect(selectedKey)}>
+          <Nav.Item>
+            <Nav.Link eventKey="signIn">Sign in</Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <Modal keyboard show={showing} onHide={this.hideModal} bsSize="sm">
+          <Modal.Header closeButton>
+            <Modal.Title>Sign in</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Button block bsStyle="primary" onClick={this.signIn}>
+              Sign In
+            </Button>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="link" onClick={this.hideModal}>Cancel</Button>
+          </Modal.Footer>
+        </Modal>
+      </>
     );
   }
 }
