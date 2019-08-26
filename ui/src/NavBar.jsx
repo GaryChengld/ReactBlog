@@ -3,7 +3,7 @@ import { Container, Navbar, Nav } from 'react-bootstrap';
 
 import SignInNavItem from './SignInNavItem.jsx';
 
-export default function NavBar() {  
+export default function NavBar() {
   return (
     <Container>
       <Navbar bg="dark" variant="dark" expand="md" fixed="top">

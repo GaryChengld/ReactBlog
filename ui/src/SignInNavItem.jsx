@@ -3,11 +3,14 @@ import {
   Nav, NavDropdown, Modal, Button,
 } from 'react-bootstrap';
 
-export default class SigninNavItem extends React.Component {
+import withToast from './withToast.jsx';
+
+class SigninNavItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showing: false,
+      disabled: true,
       user: { signedIn: false, username: '' },
     };
     this.showModal = this.showModal.bind(this);
@@ -17,21 +20,16 @@ export default class SigninNavItem extends React.Component {
     this.onSelect = this.onSelect.bind(this);
   }
 
-  signIn() {
-    this.hideModal();
-    this.setState({ user: { signedIn: true, username: 'User1' } });
-  }
-
-  signOut() {
-    this.setState({ user: { signedIn: false, username: '' } });
-  }
-
-  showModal() {
-    this.setState({ showing: true });
-  }
-
-  hideModal() {
-    this.setState({ showing: false });
+  componentDidMount() {
+    const clientId = window.ENV.GOOGLE_CLIENT_ID;
+    if (!clientId) return;
+    window.gapi.load('auth2', () => {
+      if (!window.gapi.auth2.getAuthInstance()) {
+        window.gapi.auth2.init({ client_id: clientId }).then(() => {
+          this.setState({ disabled: false });
+        });
+      }
+    });
   }
 
   onSelect(selectedKey) {
@@ -42,19 +40,50 @@ export default class SigninNavItem extends React.Component {
     }
   }
 
+  signOut() {
+    this.setState({ user: { signedIn: false, username: '' } });
+  }
+
+  showModal() {
+    const clientId = window.ENV.GOOGLE_CLIENT_ID;
+    const { showError } = this.props;
+    if (!clientId) {
+      showError('Missing environment variable GOOGLE_CLIENT_ID');
+      return;
+    }
+    this.setState({ showing: true });
+  }
+
+  hideModal() {
+    this.setState({ showing: false });
+  }
+
+  async signIn() {
+    this.hideModal();
+    const { showError } = this.props;
+    try {
+      const auth2 = window.gapi.auth2.getAuthInstance();
+      const googleUser = await auth2.signIn();
+      const username = googleUser.getBasicProfile().getName();
+      this.setState({ user: { signedIn: true, username } });
+    } catch (error) {
+      showError(`Error authenticating with Google: ${error.error}`);
+    }
+  }
+
   render() {
     const { user } = this.state;
     if (user.signedIn) {
       return (
         <Nav activeKey="1" onSelect={selectedKey => this.onSelect(selectedKey)}>
-          <NavDropdown title={user.username} id="user" alignRight={true}>
+          <NavDropdown title={user.username} id="user" alignRight>
             <NavDropdown.Item eventKey="signOut">Sign out</NavDropdown.Item>
           </NavDropdown>
         </Nav>
       );
     }
 
-    const { showing } = this.state;
+    const { showing, disabled } = this.state;
     return (
       <>
         <Nav onSelect={selectedKey => this.onSelect(selectedKey)}>
@@ -62,20 +91,22 @@ export default class SigninNavItem extends React.Component {
             <Nav.Link eventKey="signIn">Sign in</Nav.Link>
           </Nav.Item>
         </Nav>
-        <Modal keyboard show={showing} onHide={this.hideModal} bsSize="sm">
+        <Modal keyboard show={showing} onHide={this.hideModal} size="sm">
           <Modal.Header closeButton>
             <Modal.Title>Sign in</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Button block bsStyle="primary" onClick={this.signIn}>
-              Sign In
+            <Button block variant="primary" disabled={disabled} onClick={this.signIn}>
+              <img src="https://goo.gl/4yjp6B" alt="Sign In" />
             </Button>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="link" onClick={this.hideModal}>Cancel</Button>
+            <Button variant="link" onClick={this.hideModal}>Cancel</Button>
           </Modal.Footer>
         </Modal>
       </>
     );
   }
 }
+
+export default withToast(SigninNavItem);
