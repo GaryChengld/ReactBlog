@@ -8,6 +8,7 @@ const logger = require('morgan');
 
 const db = require('./db/db');
 const graphqlHandler = require('./graphql/graphqlHandler');
+const auth = require('./auth.js');
 
 const app = express();
 
@@ -16,16 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use('/auth', auth.routes);
 graphqlHandler.initServer(app);
-
-// UnauthorizedError handler
-app.use((err, req, res, next) => {
-  if (err.name === 'UnauthorizedError') {
-    res
-      .status(401)
-      .json({ message: `${err.name}: ${err.message}` });
-  }
-});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

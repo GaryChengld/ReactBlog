@@ -61,14 +61,28 @@ class SigninNavItem extends React.Component {
   async signIn() {
     this.hideModal();
     const { showError } = this.props;
+    let googleToken;
     try {
       const auth2 = window.gapi.auth2.getAuthInstance();
       const googleUser = await auth2.signIn();
-      const username = googleUser.getBasicProfile().getName();
-      this.setState({ user: { signedIn: true, username } });
+      googleToken = googleUser.getAuthResponse().id_token;
     } catch (error) {
       showError(`Error authenticating with Google: ${error.error}`);
     }
+    try {
+      const apiEndpoint = window.ENV.UI_AUTH_ENDPOINT;
+      const response = await fetch(`${apiEndpoint}/signin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ google_token: googleToken }),
+      });
+      const body = await response.text();
+      const result = JSON.parse(body);
+      const { signedIn, name } = result;
+      this.setState({ user: { signedIn, username: name } });
+    } catch (error) {
+      showError(`Error signing into the app: ${error}`);
+    }    
   }
 
   render() {
