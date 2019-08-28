@@ -15,8 +15,10 @@ const doAddComment = (post, comment) => {
   if (!post) {
     throw buildError(postNotFoundError);
   }
-  comment.createdOn = Date.now();
-  post.comments.push(comment);
+  const theComment = {
+    ...comment, createdOn: Date.now(),
+  };
+  post.comments.push(theComment);
   console.log(post);
   return post.save()
     .then(p => Promise.resolve(p.comments.pop()));
