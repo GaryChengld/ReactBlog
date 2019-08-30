@@ -33,6 +33,14 @@ class SigninNavItem extends React.Component {
     await this.loadData();
   }
 
+  onSelect(selectedKey) {
+    if (selectedKey === 'signIn') {
+      this.showModal();
+    } else if (selectedKey === 'signOut') {
+      this.signOut();
+    }
+  }
+
   async loadData() {
     const apiEndpoint = window.ENV.UI_AUTH_ENDPOINT;
     const response = await fetch(`${apiEndpoint}/user`, {
@@ -42,14 +50,6 @@ class SigninNavItem extends React.Component {
     const result = JSON.parse(body);
     const { signedIn, name } = result;
     this.setState({ user: { signedIn, username: name } });
-  }
-
-  onSelect(selectedKey) {
-    if (selectedKey === 'signIn') {
-      this.showModal();
-    } else if (selectedKey === 'signOut') {
-      this.signOut();
-    }
   }
 
   async signOut() {

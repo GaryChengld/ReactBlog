@@ -1,5 +1,6 @@
 const { UserInputError } = require('apollo-server-express');
 const mongoose = require('mongoose');
+const { mustBeSignedIn } = require('../auth.js');
 
 const Post = mongoose.model('Post');
 const postNotFoundError = 'post not found';
@@ -11,22 +12,25 @@ const buildError = (errorMessage) => {
   return new UserInputError('Invalid input(s)', { errors });
 };
 
-const doAddComment = (post, comment) => {
+const doAddComment = (post, comment, user) => {
+  const theComment = {
+    ...comment,
+    author: user.name,
+    createdOn: Date.now(),
+  };
+  console.log(theComment);
   if (!post) {
     throw buildError(postNotFoundError);
   }
-  const theComment = {
-    ...comment, createdOn: Date.now(),
-  };
   post.comments.push(theComment);
-  console.log(post);
   return post.save()
     .then(p => Promise.resolve(p.comments.pop()));
 };
 
-const addComment = (_, { postId, comment }) => Post.findById(postId)
+const addComment = (_, { postId, comment }, { user }) => Post.findById(postId)
   .select('comments')
-  .then(post => doAddComment(post, comment));
+  .then(post => doAddComment(post, comment, user));
+
 
 const doDeleteComment = (post, commentId) => {
   if (!post) {
@@ -42,4 +46,7 @@ const doDeleteComment = (post, commentId) => {
 const deleteComment = (_, { postId, commentId }) => Post.findById(postId)
   .then(post => doDeleteComment(post, commentId));
 
-module.exports = { addComment, deleteComment };
+module.exports = {
+  addComment: mustBeSignedIn(addComment),
+  deleteComment: mustBeSignedIn(deleteComment),
+};
