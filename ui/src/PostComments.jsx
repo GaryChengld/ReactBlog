@@ -9,15 +9,22 @@ import { HtmlLineBreaks } from './Utils.js';
 function Comment({ comment }) {
   const htmlBody = HtmlLineBreaks(comment.comment);
   return (
-    <Row>
-      <Col md={12}>
-        <b>{comment.author}</b>
-        {' - '}
-        {comment.createdOn.toLocaleString()}
-        <br />
-        <div dangerouslySetInnerHTML={{ __html: htmlBody }} />
-      </Col>
-    </Row>
+    <>
+      <Row>
+        <Col md={12}>
+          <br />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12}>
+          <b>{comment.author}</b>
+          {' - '}
+          {comment.createdOn.toLocaleString()}
+          <br />
+          <div dangerouslySetInnerHTML={{ __html: htmlBody }} />
+        </Col>
+      </Row>
+    </>
   );
 }
 
@@ -54,7 +61,7 @@ export default class PostComments extends React.Component {
   }
 
   isFormValid(newComment) {
-    if (newComment.author && newComment.comment) {
+    if (newComment.comment && newComment.comment.trim()) {
       return true;
     }
     return false;
@@ -71,7 +78,7 @@ export default class PostComments extends React.Component {
       }
     } else {
       const { showError } = this.props;
-      showError('All fields requried, please try again');
+      showError('Please entry comment');
     }
   }
 
@@ -100,18 +107,14 @@ export default class PostComments extends React.Component {
   }
 
   renderForm() {
-    const { newComment: { author, comment } } = this.state;
+    const { newComment: { comment } } = this.state;
     return (
       <Row>
         <Col md={6}>
           <Form onSubmit={this.handleSubmit}>
-            <Form.Group controlId="author">
-              <Form.Label>Author</Form.Label>
-              <Form.Control type="text" name="author" value={author} onChange={this.handleChange} />
-            </Form.Group>
             <Form.Group controlId="comment">
               <Form.Label>Comment</Form.Label>
-              <Form.Control as="textarea" rows="5" name="comment" value={comment} onChange={this.handleChange} />
+              <Form.Control as="textarea" rows="3" name="comment" value={comment} onChange={this.handleChange} />
             </Form.Group>
             <div className="btn-toolbar">
               <Button type="submit">Submit</Button>

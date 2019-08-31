@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { mustBeSignedIn } = require('../auth.js');
 
 const Post = mongoose.model('Post');
 
@@ -48,11 +47,11 @@ const searchPosts = (text) => {
 };
 
 module.exports = {
-  latestPosts, 
-  findById, 
-  findByAuthor, 
-  createPost, 
-  updatePost, 
-  removePost, 
+  latestPosts,
+  findById,
+  findByAuthor,
+  createPost,
+  updatePost,
+  removePost,
   searchPosts,
 };
