@@ -11,7 +11,6 @@ class SigninNavItem extends React.Component {
     this.state = {
       showing: false,
       disabled: true,
-      user: { signedIn: false, username: '' },
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -30,7 +29,6 @@ class SigninNavItem extends React.Component {
         });
       }
     });
-    await this.loadData();
   }
 
   onSelect(selectedKey) {
@@ -39,17 +37,6 @@ class SigninNavItem extends React.Component {
     } else if (selectedKey === 'signOut') {
       this.signOut();
     }
-  }
-
-  async loadData() {
-    const apiEndpoint = window.ENV.UI_AUTH_ENDPOINT;
-    const response = await fetch(`${apiEndpoint}/user`, {
-      method: 'POST',
-    });
-    const body = await response.text();
-    const result = JSON.parse(body);
-    const { signedIn, name } = result;
-    this.setState({ user: { signedIn, username: name } });
   }
 
   async signOut() {
@@ -61,7 +48,8 @@ class SigninNavItem extends React.Component {
       });
       const auth2 = window.gapi.auth2.getAuthInstance();
       await auth2.signOut();
-      this.setState({ user: { signedIn: false, username: '' } });
+      const { onUserChange } = this.props;
+      onUserChange({ signedIn: false, username: ' ' });
     } catch (error) {
       showError(`Error signing out: ${error}`);
     }
@@ -102,14 +90,15 @@ class SigninNavItem extends React.Component {
       const body = await response.text();
       const result = JSON.parse(body);
       const { signedIn, name } = result;
-      this.setState({ user: { signedIn, username: name } });
+      const { onUserChange } = this.props;
+      onUserChange({ signedIn, username: name });
     } catch (error) {
       showError(`Error signing into the app: ${error}`);
     }
   }
 
   render() {
-    const { user } = this.state;
+    const { user } = this.props;
     if (user.signedIn) {
       return (
         <Nav activeKey="1" onSelect={selectedKey => this.onSelect(selectedKey)}>

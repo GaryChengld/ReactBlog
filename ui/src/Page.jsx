@@ -19,14 +19,38 @@ function Footer() {
   );
 }
 
-export default function Page() {
-  return (
-    <div>
-      <Container fluid>
-        <NavBar />
-        <AppRouter />
-        <Footer />
-      </Container>
-    </div>
-  );
+export default class Page extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { user: { signedIn: false } };
+    this.onUserChange = this.onUserChange.bind(this);
+  }
+
+  async componentDidMount() {
+    const apiEndpoint = window.ENV.UI_AUTH_ENDPOINT;
+    const response = await fetch(`${apiEndpoint}/user`, {
+      method: 'POST',
+    });
+    const body = await response.text();
+    const result = JSON.parse(body);
+    const { signedIn, name } = result;
+    this.setState({ user: { signedIn, username: name } });
+  }
+
+  onUserChange(user) {
+    this.setState({ user });
+  }
+
+  render() {
+    const { user } = this.state;
+    return (
+      <div>
+        <Container fluid>
+          <NavBar user={user} onUserChange={this.onUserChange} />
+          <AppRouter />
+          <Footer />
+        </Container>
+      </div >
+    );
+  }
 }

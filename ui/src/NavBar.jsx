@@ -3,7 +3,7 @@ import { Container, Navbar, Nav } from 'react-bootstrap';
 
 import SignInNavItem from './SignInNavItem.jsx';
 
-export default function NavBar() {
+export default function NavBar({ user, onUserChange }) {
   return (
     <Container>
       <Navbar bg="dark" variant="dark" expand="md" fixed="top">
@@ -12,7 +12,7 @@ export default function NavBar() {
           <Nav.Link href="/posts">Latest Post</Nav.Link>
         </Nav>
         <Nav pullright="true">
-          <SignInNavItem />
+          <SignInNavItem user={user} onUserChange={onUserChange} />
         </Nav>
       </Navbar>
     </Container>
