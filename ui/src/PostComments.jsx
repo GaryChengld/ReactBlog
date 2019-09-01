@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap';
 
 import { HtmlLineBreaks } from './Utils.js';
+import UserContext from './UserContext.js';
 
 function Comment({ comment }) {
   const htmlBody = HtmlLineBreaks(comment.comment);
@@ -90,20 +91,25 @@ export default class PostComments extends React.Component {
   }
 
   renderAddButton() {
-    return (
-      <React.Fragment>
-        <Row>
-          <Col>
-            <Button variant="primary" size="sm" onClick={this.showForm}>
-              Add comment
+    const user = this.context;
+    if (user.signedIn) {
+      return (
+        <React.Fragment>
+          <Row>
+            <Col>
+              <Button variant="primary" size="sm" onClick={this.showForm}>
+                Add comment
             </Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12} className="bs-linebreak" />
-        </Row>
-      </React.Fragment>
-    );
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="bs-linebreak" />
+          </Row>
+        </React.Fragment>
+      );
+    } else {
+      return '';
+    }
   }
 
   renderForm() {
@@ -152,3 +158,5 @@ PostComments.propTypes = {
   addComment: PropTypes.func.isRequired,
   showError: PropTypes.func.isRequired,
 };
+
+PostComments.contextType = UserContext;

@@ -3,11 +3,12 @@ import { Container, Navbar, Row } from 'react-bootstrap';
 
 import NavBar from './NavBar.jsx';
 import AppRouter from './AppRouter.jsx';
+import UserContext from './UserContext.js';
 
 function Footer() {
   return (
 
-    <Container fluid>
+    <Container>
       <Navbar bg="dark" variant="dark" expand="sm" fixed="bottom">
         <Row>
           <div className="col-12 text-light">
@@ -45,12 +46,14 @@ export default class Page extends React.Component {
     const { user } = this.state;
     return (
       <div>
-        <Container fluid>
+        <Container>
           <NavBar user={user} onUserChange={this.onUserChange} />
-          <AppRouter />
+          <UserContext.Provider value={user}>
+            <AppRouter />
+          </UserContext.Provider>
           <Footer />
         </Container>
-      </div >
+      </div>
     );
   }
 }

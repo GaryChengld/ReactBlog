@@ -9,7 +9,7 @@ export default function NavBar({ user, onUserChange }) {
       <Navbar bg="dark" variant="dark" expand="md" fixed="top">
         <Navbar.Brand>React-Blog</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="/posts">Latest Post</Nav.Link>
+          <Nav.Link href="/posts">Recent Posts</Nav.Link>
         </Nav>
         <Nav pullright="true">
           <SignInNavItem user={user} onUserChange={onUserChange} />

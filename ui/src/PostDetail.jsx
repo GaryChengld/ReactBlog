@@ -40,7 +40,7 @@ class PostDetail extends React.Component {
 
     const data = await graphqlFetch(query, { id }, showError);
     if (data) {
-      const { post } = data;      
+      const { post } = data;
       post.comments.sort((a, b) => (a.createdOn > b.createdOn ? -1
         : a.createdOn < b.createdOn ? 1 : 0));
       this.setState({ post });
