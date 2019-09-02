@@ -6,10 +6,11 @@ function jsonDateReviver(key, value) {
 }
 
 export default async function
-graphqlFetch(query, variables = {}, showError = null) {
+  graphqlFetch(query, variables = {}, showError = null) {
   try {
     const response = await fetch(window.ENV.UI_API_ENDPOINT, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query, variables }),
     });
