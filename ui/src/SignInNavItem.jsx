@@ -2,6 +2,9 @@ import React from 'react';
 import {
   Nav, NavDropdown, Modal, Button,
 } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 import withToast from './withToast.jsx';
 
@@ -91,9 +94,9 @@ class SigninNavItem extends React.Component {
       });
       const body = await response.text();
       const result = JSON.parse(body);
-      const { signedIn, name } = result;
+      const { signedIn, name, picture } = result;
       const { onUserChange } = this.props;
-      onUserChange({ signedIn, username: name });
+      onUserChange({ signedIn, username: name, picture });
     } catch (error) {
       showError(`Error signing into the app: ${error}`);
     }
@@ -105,7 +108,9 @@ class SigninNavItem extends React.Component {
       return (
         <Nav activeKey="1" onSelect={selectedKey => this.onSelect(selectedKey)}>
           <NavDropdown title={user.username} id="user" alignRight>
-            <NavDropdown.Item eventKey="signOut">Sign out</NavDropdown.Item>
+            <NavDropdown.Item eventKey="signOut">
+              <FontAwesomeIcon icon={faSignOutAlt} /> Sign out
+            </NavDropdown.Item>
           </NavDropdown>
         </Nav>
       );
@@ -116,7 +121,9 @@ class SigninNavItem extends React.Component {
       <>
         <Nav onSelect={selectedKey => this.onSelect(selectedKey)}>
           <Nav.Item>
-            <Nav.Link eventKey="signIn">Sign in</Nav.Link>
+            <Nav.Link eventKey="signIn">
+              Sign in <FontAwesomeIcon icon={faSignInAlt} />
+            </Nav.Link>
           </Nav.Item>
         </Nav>
         <Modal keyboard show={showing} onHide={this.hideModal} size="sm">

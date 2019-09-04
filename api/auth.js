@@ -50,10 +50,10 @@ routes.post('/signin', async (req, res) => {
   } catch (error) {
     res.status(403).send('Invalid credentials');
   }
-
-  const { given_name: givenName, name, email } = payload;
+  console.log(payload);
+  const { given_name: givenName, name, email, picture } = payload;
   const credentials = {
-    signedIn: true, givenName, name, email,
+    signedIn: true, givenName, name, email, picture
   };
 
   const token = jwt.sign(credentials, JWT_SECRET);
