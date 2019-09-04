@@ -8,10 +8,12 @@
     "react/prop-types": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/no-danger": "off",
+    "react/jsx-props-no-spreading": [ "error", {"exceptions": ["OriginalComponent"]}],
     "linebreak-style": "off",
     "no-underscore-dangle": "off",
     "no-nested-ternary": "off",
     "class-methods-use-this": "off",
-    "max-len": "off"
+    "max-len": "off",
+    "arrow-parens": "off"
   }
 }

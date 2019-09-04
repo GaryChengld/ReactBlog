@@ -1,10 +1,9 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFile } from '@fortawesome/free-solid-svg-icons'
+import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 class AddPostNavItem extends React.Component {
-
   render() {
     const { user: { signedIn } } = this.props;
     if (signedIn) {
@@ -12,14 +11,13 @@ class AddPostNavItem extends React.Component {
         <Nav>
           <Nav.Item>
             <Nav.Link href="/addPost">
-              <FontAwesomeIcon icon={faFile} title='add post'/>
+              <FontAwesomeIcon icon={faFile} title="add post" />
             </Nav.Link>
           </Nav.Item>
         </Nav>
       );
-    } else {
-      return '';
     }
+    return '';
   }
 }
 

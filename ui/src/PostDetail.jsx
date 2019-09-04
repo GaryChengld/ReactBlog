@@ -87,7 +87,7 @@ class PostDetail extends React.Component {
     if (post) {
       const htmlBody = HtmlLineBreaks(post.body);
       return (
-        <React.Fragment>
+        <>
           <Row>
             <Col>
               <h4>{post.title}</h4>
@@ -99,7 +99,7 @@ class PostDetail extends React.Component {
             </Col>
           </Row>
           <PostComments post={post} addComment={this.addComment} showError={showError} />
-        </React.Fragment>
+        </>
       );
     }
     return '';

@@ -5,8 +5,7 @@ function jsonDateReviver(key, value) {
   return value;
 }
 
-export default async function
-  graphqlFetch(query, variables = {}, showError = null) {
+export default async function graphqlFetch(query, variables = {}, showError = null) {
   try {
     const response = await fetch(window.ENV.UI_API_ENDPOINT, {
       method: 'POST',

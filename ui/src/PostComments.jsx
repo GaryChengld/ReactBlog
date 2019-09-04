@@ -94,22 +94,21 @@ export default class PostComments extends React.Component {
     const user = this.context;
     if (user.signedIn) {
       return (
-        <React.Fragment>
+        <>
           <Row>
             <Col>
               <Button variant="primary" size="sm" onClick={this.showForm}>
                 Add comment
-            </Button>
+              </Button>
             </Col>
           </Row>
           <Row>
             <Col md={12} className="bs-linebreak" />
           </Row>
-        </React.Fragment>
+        </>
       );
-    } else {
-      return '';
     }
+    return '';
   }
 
   renderForm() {

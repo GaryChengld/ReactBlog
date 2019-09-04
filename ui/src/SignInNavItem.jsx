@@ -3,8 +3,7 @@ import {
   Nav, NavDropdown, Modal, Button,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 import withToast from './withToast.jsx';
 
