@@ -23,6 +23,14 @@ input CommentInputs {
   comment: String!
 }
 
+input AddPostInputs {
+  author: String!,
+  title: String!,
+  body: String!,
+  tags: [String!],
+  createdOn: GraphQLDate!
+}
+
 type Query {
   postList(limit: Int): [Post!]!
   post(id: String!): Post!  
@@ -33,4 +41,5 @@ type Mutation {
     postId: String!
     comment: CommentInputs!
   ): Comment!
+  addPost(issue: AddPostInputs!): Post!
 }

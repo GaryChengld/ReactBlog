@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { mustBeSignedIn } = require('../auth.js');
 
 const Post = mongoose.model('Post');
 
@@ -19,10 +20,14 @@ const findByAuthor = (author) => {
     .select('id title tags');
 };
 
-const createPost = (post) => {
+const createPost = (_, { post }, { user }) => {
   console.log('create a new post');
-  console.log(post);
-  return Post.create(post);
+  const thePost = {
+    ...post,
+    author: user.name,
+    createdOn: Date.now(),
+  }
+  return Post.create(thePost);
 };
 
 const updatePost = (id, post) => {
@@ -50,7 +55,7 @@ module.exports = {
   latestPosts,
   findById,
   findByAuthor,
-  createPost,
+  createPost: mustBeSignedIn(createPost),
   updatePost,
   removePost,
   searchPosts,

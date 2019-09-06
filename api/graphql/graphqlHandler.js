@@ -14,6 +14,7 @@ const resolvers = {
   },
   Mutation: {
     addComment: commentsService.addComment,
+    addPost: postsService.createPost,
   },
   GraphQLDate,
 };
