@@ -19,16 +19,13 @@ type Post {
 }
 
 input CommentInputs {
-  author: String!,
   comment: String!
 }
 
-input AddPostInputs {
-  author: String!,
+input PostInputs {
   title: String!,
   body: String!,
   tags: [String!],
-  createdOn: GraphQLDate!
 }
 
 type Query {
@@ -41,5 +38,6 @@ type Mutation {
     postId: String!
     comment: CommentInputs!
   ): Comment!
-  addPost(issue: AddPostInputs!): Post!
+  addPost(post: PostInputs!): Post!
+  updatePost(id: String!, post: PostInputs!): Post!
 }

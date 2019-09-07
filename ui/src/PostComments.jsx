@@ -47,10 +47,7 @@ export default class PostComments extends React.Component {
     this.setState({
       showAddButton: false,
       showForm: true,
-      newComment: {
-        author: '',
-        comment: '',
-      },
+      newComment: { comment: '' },
     });
   }
 

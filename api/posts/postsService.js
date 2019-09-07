@@ -26,14 +26,14 @@ const createPost = (_, { post }, { user }) => {
     ...post,
     author: user.name,
     createdOn: Date.now(),
-  }
+  };
   return Post.create(thePost);
 };
 
-const updatePost = (id, post) => {
+const updatePost = (_, { id, post }) => {
   console.log(`update a post, post id=${id}`);
   console.log(post);
-  return Post.findByIdAndUpdate(id, { $set: { ...post, updatedOn: Date.now() } }, { new: true });
+  return Post.findByIdAndUpdate(id, { $set: { ...post, updatedOn: Date.now() } });
 };
 
 const removePost = (id) => {
@@ -56,7 +56,7 @@ module.exports = {
   findById,
   findByAuthor,
   createPost: mustBeSignedIn(createPost),
-  updatePost,
+  updatePost: mustBeSignedIn(updatePost),
   removePost,
   searchPosts,
 };
