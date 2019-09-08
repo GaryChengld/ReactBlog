@@ -9,6 +9,7 @@ export default class InputPost extends React.Component {
       post
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -18,15 +19,19 @@ export default class InputPost extends React.Component {
     }));
   }
 
+  isFormValid(post) {
+    if (post.title && post.title.trim() && post.body && post.body.trim()) {
+      return true;
+    }
+    return false;
+  }
+
   async handleSubmit(event) {
     event.preventDefault();
     const { post } = this.state;
     if (this.isFormValid(post)) {
       const { savePost } = this.props;
-      const data = await savePost(post);
-      if (data) {
-        
-      }
+      await savePost(post);
     } else {
       const { showError } = this.props;
       showError('All fields requried, please try again');
@@ -50,7 +55,7 @@ export default class InputPost extends React.Component {
               <Form.Control as="textarea" rows="5" name="body" value={post.body} onChange={this.handleChange} />
             </Form.Group>
             <div className="btn-toolbar">
-              <Button variant="primary">Save</Button>
+              <Button variant="primary" type="submit">Save</Button>
               <Button variant="link" >Cancel</Button>
             </div>
           </Form>
