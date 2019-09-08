@@ -1,13 +1,20 @@
 import React from 'react';
+import InputPost from './InputPost.jsx'
+import withToast from './withToast.jsx';
 
 class AddPost extends React.Component {
   render() {
+    const { showError } = this.props;
+    const post = {
+      title: '',
+      body: '',
+    }
+    const title = 'Add Post'
     return (
-      <>
-        <h3>Add Post</h3>
-      </>
+      <InputPost title={title} post={post} showError={showError} />
     );
   }
 }
 
-export default AddPost;
+const AddPostWithToast = withToast(AddPost);
+export default AddPostWithToast;
