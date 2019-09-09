@@ -5,9 +5,7 @@ export default class InputPost extends React.Component {
   constructor(props) {
     super(props);
     const { post } = props;
-    this.state = {
-      post
-    };
+    this.state = { post };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -56,10 +54,9 @@ export default class InputPost extends React.Component {
             </Form.Group>
             <div className="btn-toolbar">
               <Button variant="primary" type="submit">Save</Button>
-              <Button variant="link" >Cancel</Button>
+              <Button variant="link">Cancel</Button>
             </div>
           </Form>
-
         </Card.Body>
       </Card>
     );

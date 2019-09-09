@@ -1,6 +1,6 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom'
-import InputPost from './InputPost.jsx'
+import { Redirect } from 'react-router-dom';
+import InputPost from './InputPost.jsx';
 import withToast from './withToast.jsx';
 import UserContext from './UserContext.js';
 import graphqlFetch from './graphqlFetch.js';
@@ -21,7 +21,7 @@ class AddPost extends React.Component {
         }
       }`;
 
-    const data = await graphqlFetch(query, { post: post }, showError);
+    const data = await graphqlFetch(query, { post }, showError);
     if (data) {
       const { addPost } = data;
       this.setState({ newPostId: addPost._id });
@@ -35,8 +35,8 @@ class AddPost extends React.Component {
     const post = {
       title: '',
       body: '',
-    }
-    const title = 'Add Post'
+    };
+    const title = 'Add Post';
     if (newPostId) {
       const redirectPath = `/post/${newPostId}`;
       return <Redirect to={redirectPath} />;
