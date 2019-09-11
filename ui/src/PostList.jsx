@@ -1,6 +1,7 @@
 import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table } from 'react-bootstrap';
+import { CardColumns } from 'react-bootstrap';
+import PostCard from './PostCard.jsx'
 
 function PostRow({ post }) {
   const selectLocation = { pathname: `/post/${post._id}` };
@@ -16,21 +17,12 @@ function PostRow({ post }) {
 }
 
 export default function PostList({ posts }) {
-  const postRows = posts.map(post => (
-    <PostRow key={post._id} post={post} />
+  const postCards = posts.map(post => (
+    <PostCard key={post._id} post={post} />
   ));
   return (
-    <Table bordered hover responsive size="sm">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Created</th>
-        </tr>
-      </thead>
-      <tbody>
-        {postRows}
-      </tbody>
-    </Table>
+    <CardColumns>
+      {postCards}
+    </CardColumns>
   );
 }
