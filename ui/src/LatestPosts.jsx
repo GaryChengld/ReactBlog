@@ -15,7 +15,7 @@ export default class LatestPosts extends React.Component {
 
   async loadData() {
     const query = `query {
-      postList(limit: 10) {
+      postList(limit: 12) {
           _id
           author
           title
