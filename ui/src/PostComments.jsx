@@ -89,6 +89,7 @@ export default class PostComments extends React.Component {
 
   renderAddButton() {
     const user = this.context;
+    console.log(user);
     if (user.signedIn) {
       return (
         <>

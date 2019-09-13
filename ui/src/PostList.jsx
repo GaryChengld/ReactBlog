@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Container } from 'react-bootstrap';
-import PostCard from './PostCard.jsx'
+import PostCard from './PostCard.jsx';
 
 export default function PostList({ posts }) {
   const postCards = posts.map(post => (
