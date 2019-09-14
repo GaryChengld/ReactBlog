@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, Col } from 'react-bootstrap';
+import { Card, Col } from 'react-bootstrap';
+import TimeAgo from 'react-timeago'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import UserContext from './UserContext.js';
 
 export default class PostCard extends React.Component {
@@ -17,11 +20,12 @@ export default class PostCard extends React.Component {
             </Card.Title>
             <Link to={linkTo}>
               <Card.Text className="mb-2 text-muted">{post.title}</Card.Text>
-            </Link>            
+            </Link>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">{post.createdOn.toLocaleString()}</small>
-            <Button variant="primary" size="sm">Edit</Button>
+            <small>
+              <TimeAgo date={post.createdOn.toLocaleString()} />
+            </small>
           </Card.Footer>
         </Card>
       </Col>
