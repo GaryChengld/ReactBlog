@@ -36,9 +36,9 @@ const updatePost = (_, { id, post }) => {
   return Post.findByIdAndUpdate(id, { $set: { ...post, updatedOn: Date.now() } });
 };
 
-const removePost = (_, { id }, { user }) => {
+const removePost = (_, { id }) => {
   console.log(`remove a post, post id=${id}`);
-  return Post.findByIdAndRemove(id).then(p => Promise.resolve(true));
+  return Post.findByIdAndRemove(id).then(Promise.resolve(true));
 };
 
 const searchPosts = (text) => {

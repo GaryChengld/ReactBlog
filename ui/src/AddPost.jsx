@@ -9,8 +9,8 @@ class AddPost extends React.Component {
   constructor() {
     super();
     this.state = {};
-    this.savePost = this.savePost.bind(this);    
-  }  
+    this.savePost = this.savePost.bind(this);
+  }
 
   async savePost(post) {
     const { showError } = this.props;

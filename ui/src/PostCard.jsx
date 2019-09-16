@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown, Card, Col } from 'react-bootstrap';
-import TimeAgo from 'react-timeago'
+import TimeAgo from 'react-timeago';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import UserContext from './UserContext.js';
 
 export default class PostCard extends React.Component {
-
   constructor() {
     super();
     this.renderMoreAction = this.renderMoreAction.bind(this);
@@ -40,7 +39,6 @@ export default class PostCard extends React.Component {
 
   render() {
     const { post } = this.props;
-    const user = this.context;
     const linkTo = `/post/${post._id}`;
     return (
       <Col lg={4} className="py-2">

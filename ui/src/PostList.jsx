@@ -37,4 +37,3 @@ class PostList extends React.Component {
 }
 
 export default withToast(PostList);
-
