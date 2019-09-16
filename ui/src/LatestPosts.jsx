@@ -7,6 +7,7 @@ export default class LatestPosts extends React.Component {
   constructor() {
     super();
     this.state = { posts: [] };
+    this.loadData = this.loadData.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +34,7 @@ export default class LatestPosts extends React.Component {
     const { posts } = this.state;
     return (
       <>
-        <PostList posts={posts} />
+        <PostList posts={posts} loadData={this.loadData} />
       </>
     );
   }

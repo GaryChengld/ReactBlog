@@ -40,4 +40,5 @@ type Mutation {
   ): Comment!
   addPost(post: PostInputs!): Post!
   updatePost(id: String!, post: PostInputs!): Post!
+  removePost(id: String!): Boolean
 }

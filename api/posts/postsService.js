@@ -36,9 +36,9 @@ const updatePost = (_, { id, post }) => {
   return Post.findByIdAndUpdate(id, { $set: { ...post, updatedOn: Date.now() } });
 };
 
-const removePost = (id) => {
+const removePost = (_, { id }, { user }) => {
   console.log(`remove a post, post id=${id}`);
-  return Post.findByIdAndRemove(id);
+  return Post.findByIdAndRemove(id).then(p => Promise.resolve(true));
 };
 
 const searchPosts = (text) => {
@@ -57,6 +57,6 @@ module.exports = {
   findByAuthor,
   createPost: mustBeSignedIn(createPost),
   updatePost: mustBeSignedIn(updatePost),
-  removePost,
+  removePost: mustBeSignedIn(removePost),
   searchPosts,
 };

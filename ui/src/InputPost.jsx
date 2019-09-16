@@ -1,13 +1,19 @@
 import React from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
-export default class InputPost extends React.Component {
+class InputPost extends React.Component {
   constructor(props) {
     super(props);
     const { post } = props;
     this.state = { post };
+    this.goBack = this.goBack.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  goBack() {
+    this.props.history.goBack();
   }
 
   handleChange(event) {
@@ -54,7 +60,7 @@ export default class InputPost extends React.Component {
             </Form.Group>
             <div className="btn-toolbar">
               <Button variant="primary" type="submit">Save</Button>
-              <Button variant="link">Cancel</Button>
+              <Button variant="link" onClick={this.goBack}>Cancel</Button>
             </div>
           </Form>
         </Card.Body>
@@ -62,3 +68,5 @@ export default class InputPost extends React.Component {
     );
   }
 }
+
+export default withRouter(InputPost);
