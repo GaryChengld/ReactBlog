@@ -15,7 +15,9 @@ export default class PostCard extends React.Component {
 
   onDelete() {
     const { post, deletePost } = this.props;
-    deletePost(post);
+    if (window.confirm('Are you sure you wish to delete this post?')) {
+      deletePost(post);
+    }
   }
 
   renderMoreAction() {
@@ -28,7 +30,7 @@ export default class PostCard extends React.Component {
             <FontAwesomeIcon icon={faEllipsisH} title="more action" />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Edit</Dropdown.Item>
+            <Dropdown.Item href={`/editPost/${post._id}`}>Edit</Dropdown.Item>
             <Dropdown.Item onClick={this.onDelete}>Delete</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
