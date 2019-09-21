@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import InputPost from './InputPost.jsx';
 import withToast from './withToast.jsx';
-import UserContext from './UserContext.js';
 import graphqlFetch from './graphqlFetch.js';
 
 class EditPost extends React.Component {
@@ -37,7 +36,7 @@ class EditPost extends React.Component {
       const { post } = data;
       this.setState({ post, saved: false });
     } else {
-      this.showError("Post not found");
+      this.showError('Post not found');
       this.setState({ post: undefined, saved: false });
     }
   }
@@ -69,7 +68,8 @@ class EditPost extends React.Component {
     if (post && saved) {
       const redirectPath = `/post/${post._id}`;
       return <Redirect to={redirectPath} />;
-    } else if (post) {
+    }
+    if (post) {
       return (
         <InputPost title={title} post={post} savePost={this.savePost} showError={showError} />
       );

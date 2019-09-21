@@ -44,7 +44,7 @@ class PostDetail extends React.Component {
       post.comments.sort((a, b) => (a.createdOn > b.createdOn ? -1
         : a.createdOn < b.createdOn ? 1 : 0));
       this.setState({ post });
-    } else {      
+    } else {
       this.setState({ post: undefined });
     }
   }
