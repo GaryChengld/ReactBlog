@@ -16,6 +16,7 @@ const resolvers = {
     addComment: commentsService.addComment,
     addPost: postsService.createPost,
     removePost: postsService.removePost,
+    updatePost: postsService.updatePost,
   },
   GraphQLDate,
 };

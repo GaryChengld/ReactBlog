@@ -9,6 +9,7 @@ class EditPost extends React.Component {
   constructor() {
     super();
     this.state = {};
+    this.savePost = this.savePost.bind(this);
   }
 
   componentDidMount() {
@@ -23,6 +24,7 @@ class EditPost extends React.Component {
     const query = `
       query post($id: String!) {
         post (id: $id) {
+          _id
           author
           title
           body
@@ -35,11 +37,29 @@ class EditPost extends React.Component {
       const { post } = data;
       this.setState({ post, saved: false });
     } else {
-      this.setState({ post: {}, saved: false });
+      this.showError("Post not found");
+      this.setState({ post: undefined, saved: false });
     }
   }
 
   async savePost(post) {
+    const { showError } = this.props;
+    const postInputs = {
+      title: post.title,
+      body: post.body,
+    };
+    const query = `mutation updatePost($id: String!, $post: PostInputs!) {
+        updatePost(id: $id, post: $post)
+        {
+          _id                  
+        }
+      }`;
+    const { _id: id } = post;
+    const data = await graphqlFetch(query, { id, post: postInputs }, showError);
+    if (data) {
+      this.setState({ post, saved: true });
+    }
+    return data;
   }
 
   render() {
