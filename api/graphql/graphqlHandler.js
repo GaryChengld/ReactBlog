@@ -11,6 +11,7 @@ const resolvers = {
   Query: {
     postList: postsService.latestPosts,
     post: postsService.findById,
+    searchPost: postsService.searchPosts,
   },
   Mutation: {
     addComment: commentsService.addComment,

@@ -41,14 +41,13 @@ const removePost = (_, { id }) => {
   return Post.findByIdAndRemove(id).then(() => Promise.resolve(true));
 };
 
-const searchPosts = (text) => {
+const searchPosts = (_, { text }) => {
   console.log(`search by text, keyword=${text}`);
   return Post.find(
     { $text: { $search: text } },
     { score: { $meta: 'textScore' } },
   )
-    .sort({ score: { $meta: 'textScore' } })
-    .select('id title author createdOn tags');
+    .sort({ score: { $meta: 'textScore' } });
 };
 
 module.exports = {

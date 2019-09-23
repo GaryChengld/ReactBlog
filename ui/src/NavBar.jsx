@@ -3,6 +3,7 @@ import { Container, Navbar, Nav } from 'react-bootstrap';
 
 import SignInNavItem from './SignInNavItem.jsx';
 import AddPostNavItem from './AddPostNavItem.jsx';
+import SearchNavItem from './SearchNavItem.jsx';
 
 export default function NavBar({ user, onUserChange }) {
   return (
@@ -11,9 +12,10 @@ export default function NavBar({ user, onUserChange }) {
         <Navbar.Brand>React-Blog</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/posts">Recent Posts</Nav.Link>
+          <AddPostNavItem user={user} />
         </Nav>
         <Nav pullright="true">
-          <AddPostNavItem user={user} />
+          <SearchNavItem />
           <SignInNavItem user={user} onUserChange={onUserChange} />
         </Nav>
       </Navbar>
