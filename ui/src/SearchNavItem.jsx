@@ -1,28 +1,28 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import URLSearchParams from 'url-search-params';
 import {
   Button, FormControl, Form,
 } from 'react-bootstrap';
 
-export default class SearchNavItem extends React.Component {
+class SearchNavItem extends React.Component {
   constructor() {
     super();
-    this.state = {
-      search: '',
-      doSearch: false,
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = { search: '' };
+    this.doSearch = this.doSearch.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSubmit(event) {
+  doSearch() {
     const { search } = this.state;
+    const { history } = this.props;
+
     if (search && search.trim()) {
-      this.setState({ doSearch: true });
-    } else {
-      this.setState({ doSearch: false });
+      const params = new URLSearchParams();
+      params.set('text', search);
+      const searchParam = `?${params.toString()}`;
+      history.push({ pathname: '/searchPosts', search: searchParam });
     }
-    event.preventDefault();
   }
 
   handleChange(event) {
@@ -31,18 +31,15 @@ export default class SearchNavItem extends React.Component {
   }
 
   render() {
-    const { search, doSearch } = this.state;
-    if (doSearch) {
-      const redirectPath = `/searchPosts/${search}`;
-      this.setState({ doSearch: false });
-      return <Redirect to={redirectPath} />;
-    }
+    const { search } = this.state;
     return (
       <Form onSubmit={this.handleSubmit} inline>
         <FormControl type="text" placeholder="Search" className="mr-sm-2"
           name="search" value={search} onChange={this.handleChange} />
-        <Button type="submit" variant="outline-light">Search</Button>
+        <Button variant="outline-light" onClick={this.doSearch}>Search</Button>
       </Form>
     );
   }
 }
+
+export default withRouter(SearchNavItem);

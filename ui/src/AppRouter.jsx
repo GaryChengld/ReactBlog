@@ -15,9 +15,9 @@ export default function AppRouter() {
       <Redirect exact from="/" to="/posts" />
       <Route path="/posts" component={LatestPosts} />
       <Route path="/post/:id" component={PostDetail} />
-      <Route path="/searchPosts/:text" component={SearchPosts} />
+      <Route path="/searchPosts" component={SearchPosts} />
       <Route path="/addPost" component={AddPost} />
-      <Route path="/editPost/:id" component={EditPost} />
+      <Route exact path="/editPost/:id" component={EditPost} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -1,9 +1,11 @@
 import React from 'react';
+import URLSearchParams from 'url-search-params';
 
 import PostList from './PostList.jsx';
 import graphqlFetch from './graphqlFetch.js';
+import withToast from './withToast.jsx';
 
-export default class SearchPosts extends React.Component {
+class SearchPosts extends React.Component {
   constructor() {
     super();
     this.state = { posts: [] };
@@ -14,13 +16,21 @@ export default class SearchPosts extends React.Component {
     this.loadData();
   }
 
+  componentDidUpdate(prevProps) {
+    const { location: { search: prevSearch } } = prevProps;
+    const { location: { search } } = this.props;
+    if (prevSearch !== search) {
+      this.loadData();
+    }
+  }
+
   async loadData() {
-    const {
-      match: { params: { text } },
-    } = this.props;
+    const { location: { search } } = this.props;
+    const params = new URLSearchParams(search);
+    const text = params.get('text');
 
     const query = `query {
-      postList(limit: 12) {
+      searchPosts(text: "${text}") {
           _id
           author
           title
@@ -28,9 +38,9 @@ export default class SearchPosts extends React.Component {
         }
     }`;
 
-    const data = await graphqlFetch(query);
+    const data = await graphqlFetch(query, {}, this.showError);
     if (data) {
-      this.setState({ posts: data.postList });
+      this.setState({ posts: data.searchPosts });
     }
   }
 
@@ -43,3 +53,6 @@ export default class SearchPosts extends React.Component {
     );
   }
 }
+
+const SearchPostsToast = withToast(SearchPosts);
+export default SearchPostsToast;
