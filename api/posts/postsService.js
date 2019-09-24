@@ -14,10 +14,9 @@ const findById = (_, { id }) => {
   return Post.findById(id);
 };
 
-const findByAuthor = (author) => {
+const findByAuthor = (_, { author }) => {
   console.log(`find post by author, author=${author}`);
-  return Post.find({ author })
-    .select('id title tags');
+  return Post.find({ author });
 };
 
 const createPost = (_, { post }, { user }) => {

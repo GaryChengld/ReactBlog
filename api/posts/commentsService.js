@@ -22,6 +22,8 @@ const doAddComment = (post, comment, user) => {
   if (!post) {
     throw buildError(postNotFoundError);
   }
+  // return Post.findByIdAndUpdate(post._id, { $push: { comments: theComment } })
+  //  .then(p => Promise.resolve(p.comments.pop()));
   post.comments.push(theComment);
   return post.save()
     .then(p => Promise.resolve(p.comments.pop()));

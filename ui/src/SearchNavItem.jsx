@@ -2,8 +2,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import URLSearchParams from 'url-search-params';
 import {
-  Button, FormControl, Form,
+  FormControl, Form, InputGroup,
 } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 class SearchNavItem extends React.Component {
   constructor() {
@@ -11,6 +13,7 @@ class SearchNavItem extends React.Component {
     this.state = { search: '' };
     this.doSearch = this.doSearch.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   doSearch() {
@@ -30,13 +33,30 @@ class SearchNavItem extends React.Component {
     this.setState({ [name]: value });
   }
 
+  async handleSubmit(event) {
+    event.preventDefault();
+    this.doSearch();
+  }
+
   render() {
     const { search } = this.state;
     return (
       <Form onSubmit={this.handleSubmit} inline>
-        <FormControl type="text" placeholder="Search" className="mr-sm-2"
-          name="search" value={search} onChange={this.handleChange} />
-        <Button variant="outline-light" onClick={this.doSearch}>Search</Button>
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text id="basic-addon1">
+              <FontAwesomeIcon icon={faSearch} />
+            </InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            type="text"
+            placeholder="Search"
+            className="mr-sm-2"
+            name="search"
+            value={search}
+            onChange={this.handleChange}
+          />
+        </InputGroup>
       </Form>
     );
   }

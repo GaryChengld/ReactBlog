@@ -16,10 +16,20 @@ const postSchema = new mongoose.Schema({
   comments: [commentSchema],
 }, { collation: 'Posts' });
 
-postSchema.index({
-  title: 'text',
-  author: 'text',
-  body: 'text',
-});
+postSchema.index(
+  {
+    title: 'text',
+    author: 'text',
+    body: 'text',
+  },
+  {
+
+    weights: {
+      author: 5,
+      title: 4,
+      body: 2,
+    },
+  },
+);
 
 mongoose.model('Post', postSchema);
