@@ -1,1 +1,1 @@
-## React based Blog example
+## React based blog example on Node.js. GraphQL and MongoDB
